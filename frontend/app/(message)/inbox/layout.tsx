@@ -7,7 +7,6 @@ import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { MailList } from '../components/mail-list';
 import { mails } from '../data';
-import { MailDisplay } from '../components/mail-display';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 	const layout = cookies().get('react-resizable-panels:layout:mail');

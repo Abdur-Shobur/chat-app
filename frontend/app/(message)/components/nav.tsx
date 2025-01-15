@@ -26,7 +26,6 @@ interface NavProps {
 
 export function Nav({ links, isCollapsed }: NavProps) {
 	const pathName = usePathname();
-	console.log(pathName);
 	return (
 		<div
 			data-collapsed={isCollapsed}

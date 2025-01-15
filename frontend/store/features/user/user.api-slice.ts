@@ -1,10 +1,11 @@
 import { apiSlice } from '../api/apiSlice';
+import { ApiResponse } from '../basic-api';
 import { UserType } from './user.interface';
 
 export const api = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
-		users: builder.query<UserType[], undefined>({
-			query: (): string => `users`,
+		users: builder.query<ApiResponse<UserType[]>, undefined>({
+			query: (): string => `user`,
 			providesTags: ['Users'],
 		}),
 

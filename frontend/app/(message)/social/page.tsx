@@ -1,9 +1,9 @@
 import { cookies } from 'next/headers';
 
 import { ResizablePanel } from '@/components/ui/resizable';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
-import UserCard from './components/user-card-';
+import { UserList } from './components/user-list';
 
 export default function Page() {
 	const layout = cookies().get('react-resizable-panels:layout:mail');
@@ -12,7 +12,7 @@ export default function Page() {
 	return (
 		<>
 			<ResizablePanel
-				defaultSize={defaultLayout[1]}
+				defaultSize={defaultLayout ? defaultLayout[1] : 32}
 				minSize={30}
 				className="!overflow-auto"
 			>
@@ -36,15 +36,7 @@ export default function Page() {
 					</div>
 					<Separator />
 					<div className="p-4">
-						<UserCard
-							name="Jane Doe"
-							jobTitle="Full Stack Developer"
-							bio="Passionate about creating beautiful and functional web applications. Love to learn and share knowledge with the community."
-							avatarUrl="/placeholder.svg?height=96&width=96"
-							followers={1234}
-							following={567}
-							projects={23}
-						/>
+						<UserList />
 					</div>
 				</Tabs>
 			</ResizablePanel>

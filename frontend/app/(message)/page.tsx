@@ -10,7 +10,10 @@ export default function Page() {
 
 	return (
 		<>
-			<ResizablePanel defaultSize={defaultLayout[1]} minSize={30}>
+			<ResizablePanel
+				defaultSize={defaultLayout ? defaultLayout[1] : 32}
+				minSize={30}
+			>
 				<Tabs defaultValue="all">
 					<div className="flex items-center px-4 py-2">
 						<h1 className="text-xl font-bold">Inbox</h1>

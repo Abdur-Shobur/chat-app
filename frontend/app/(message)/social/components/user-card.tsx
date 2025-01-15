@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import {
 	Card,
 	CardContent,
@@ -6,31 +5,17 @@ import {
 	CardHeader,
 } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { UserType } from '@/store/features/user';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
-interface UserCardProps {
-	name: string;
-	jobTitle: string;
-	bio: string;
-	avatarUrl: string;
-	followers: number;
-	following: number;
-	projects: number;
-}
-
-export default function UserCard({
-	name,
-	jobTitle,
-	bio,
-	avatarUrl,
-	followers,
-	following,
-	projects,
-}: UserCardProps) {
+export default function UserCard({ ...props }: UserType) {
+	const { createdAt, name, email, _id } = props;
 	return (
 		<Card className="w-full max-w-md  ">
 			<CardHeader className="flex flex-col items-center space-y-4">
 				<Avatar className="w-24 h-24">
-					<AvatarImage src={avatarUrl} alt={name} />
+					<AvatarImage src={undefined} alt={name} />
 					<AvatarFallback>
 						{name
 							.split(' ')
@@ -40,28 +25,32 @@ export default function UserCard({
 				</Avatar>
 				<div className="text-center">
 					<h2 className="text-2xl font-bold">{name}</h2>
-					<p className="text-muted-foreground">{jobTitle}</p>
+					<p className="text-muted-foreground">{email}</p>
 				</div>
 			</CardHeader>
 			<CardContent className="text-center">
-				<p className="text-sm text-muted-foreground mb-4">{bio}</p>
+				{/* <p className="text-sm text-muted-foreground ">{createdAt}</p> */}
 				<div className="flex justify-center space-x-4 text-sm">
 					<div>
-						<p className="font-semibold">{followers}</p>
-						<p className="text-muted-foreground">Followers</p>
+						<p className="font-semibold">{createdAt}</p>
+						<p className="text-muted-foreground">Join Date</p>
 					</div>
-					<div>
+					{/*
+					 <div>
 						<p className="font-semibold">{following}</p>
 						<p className="text-muted-foreground">Following</p>
 					</div>
 					<div>
 						<p className="font-semibold">{projects}</p>
 						<p className="text-muted-foreground">Projects</p>
-					</div>
+					</div> 
+					*/}
 				</div>
 			</CardContent>
 			<CardFooter className="flex justify-center">
-				<Button>Follow</Button>
+				<Link href={`/inbox/${_id}`} className="text-muted-foreground">
+					<Button>Send Message</Button>
+				</Link>
 			</CardFooter>
 		</Card>
 	);
