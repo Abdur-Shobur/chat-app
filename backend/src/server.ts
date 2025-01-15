@@ -4,6 +4,9 @@ import { Server } from 'http'
 import mongoose from 'mongoose'
 import app from './app'
 import config from './config/index'
+import sockets from './app/modules/sockets'
+import { Server as WebSocketServer } from 'socket.io'
+
 // import { errorlogger, logger } from './shared/logger'
 
 process.on('uncaughtException', _error => {
@@ -20,6 +23,10 @@ async function bootstrap() {
       console.log('Application  listening on port ', config.port)
       // logger.info(`Application  listening on port ${config.port}`)
     })
+
+    const io = new WebSocketServer(server)
+
+    sockets(io)
 
     server.requestTimeout = 10000
     server.timeout = 10000

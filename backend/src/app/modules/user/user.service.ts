@@ -10,77 +10,7 @@ import UserModel from './user.model'
 const index = async (params: {
   status: ApiStatusType
 }): Promise<UserType[] | null> => {
-  const { status } = params
-
-  const matchStage: { status?: ApiStatusType } = {}
-
-  if (status !== 'all') {
-    matchStage.status = status
-  }
-
-  // Define the aggregation pipeline
-  const pipeline = [
-    { $match: matchStage },
-    {
-      // Use $lookup to join the created_by field with the User collection
-      $lookup: {
-        from: 'users', // The collection name for User
-        localField: 'created_by', // The field in the current document
-        foreignField: '_id', // The field in the User collection
-        as: 'created_by_data', // The name of the resulting array
-      },
-    },
-    {
-      // Unwind the created_by_data array to turn it into a single object
-      $unwind: {
-        path: '$created_by_data',
-        preserveNullAndEmptyArrays: true, // In case created_by is null or missing
-      },
-    },
-    {
-      // Use $lookup to join the role_id field with the UserRole collection
-      $lookup: {
-        from: 'userroles', // The collection name for UserRole
-        localField: 'role_id', // The field in the current document
-        foreignField: '_id', // The field in the UserRole collection
-        as: 'role_data', // The name of the resulting array
-      },
-    },
-    {
-      // Unwind the role_data array to turn it into a single object
-      $unwind: {
-        path: '$role_data',
-        preserveNullAndEmptyArrays: true, // In case role_id is null or missing
-      },
-    },
-    {
-      $project: {
-        _id: 1,
-        name: 1,
-        slug: 1,
-        status: 1,
-        phone: 1,
-        email: 1,
-        description: 1,
-        image: 1,
-        image_type: 1,
-        verify: 1,
-        balance: 1,
-        message: 1,
-        point: 1,
-        created_by: {
-          _id: '$created_by_data._id',
-          name: '$created_by_data.name', // Include only _id and name from created_by
-        },
-        role_id: {
-          _id: '$role_data._id', // Include _id from role
-          name: '$role_data.name', // Include name from role
-        },
-      },
-    },
-  ]
-
-  const result = await UserModel.aggregate(pipeline)
+  const result = await UserModel.find({}).select('-password') // Exclude the password field
 
   return result
 }

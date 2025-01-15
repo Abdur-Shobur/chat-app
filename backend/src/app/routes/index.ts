@@ -12,6 +12,10 @@ const moduleRoutes = [
     path: '/auth',
     route: RouteList.AuthRoutes,
   },
+  {
+    path: '/message',
+    route: RouteList.MessageRoutes,
+  },
 ]
 
 moduleRoutes.forEach(route => router.use(route.path, route.route))
